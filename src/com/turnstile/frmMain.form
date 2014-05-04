@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.turnstile.frmMain">
+  <grid id="27dc6" binding="pnMain" layout-manager="FormLayout">
+    <rowspec value="center:d:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <colspec value="fill:d:grow"/>
+    <constraints>
+      <xy x="20" y="20" width="580" height="559"/>
+    </constraints>
+    <properties/>
+    <border type="line"/>
+    <children>
+      <component id="c21a6" class="javax.swing.JButton" binding="btnLoad">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <font name="Serif" size="24" style="1"/>
+          <text value="Load Scanned Sheets"/>
+        </properties>
+      </component>
+      <component id="ede4d" class="javax.swing.JButton" binding="btnProcess">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <font name="Serif" size="24" style="1"/>
+          <text value="Generate Report"/>
+        </properties>
+      </component>
+      <component id="b695a" class="javax.swing.JProgressBar" binding="pbProgress">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-16750900"/>
+          <string value=""/>
+          <toolTipText value="Progress"/>
+          <value value="0"/>
+        </properties>
+      </component>
+      <component id="c28fd" class="javax.swing.JTextArea" binding="txtOutput">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <editable value="false"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
