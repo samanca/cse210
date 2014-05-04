@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.filechooser.*;
 import java.io.*;
+import java.lang.Thread;
 
 /**
  * Main interface class
@@ -38,7 +39,6 @@ public class frmMain implements ActionListener {
         else if (e.getSource() == btnProcess) {
             if (inputFile != null) {
                 txtOutput.setText(process(inputFile));
-                pbProgress.setValue(100);
             }
         }
         else {
@@ -54,12 +54,16 @@ public class frmMain implements ActionListener {
 
     public static void main(String[] args) {
 
+        frmMain obj = new frmMain();
+
         JFrame frame = new JFrame("frmMain");
-        frame.setContentPane(new frmMain().pnMain);
+        frame.setContentPane(obj.pnMain);
         frame.setTitle("Turnstile");
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setResizable(false);
+        obj.txtOutput.setMargin(new Insets(5, 5, 5, 5));
         frame.setVisible(true);
     }
 
@@ -79,6 +83,12 @@ public class frmMain implements ActionListener {
     private String process(String input) {
         String retVal = "Start processing file " + input + NEWLINE;
         retVal += "Generating output ..." + NEWLINE;
+        for (int i = 0; i < 10; i++) {
+            retVal += "Processing page " + i + " ..." + NEWLINE;
+            try { Thread.sleep(100); } catch (Exception ex) {}
+            pbProgress.setValue(pbProgress.getValue() + 10);
+
+        }
         retVal += "Done" + NEWLINE;
         return retVal;
     }
