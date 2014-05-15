@@ -95,6 +95,10 @@ public class frmMain implements ActionListener {
         */
         PDFReader p = PDFReader.SingleInstance();
         p.Import(input, "");
+
+        ExcelReporter rep = ExcelReporter.SingleInstance();
+        //rep.Export(TSheet.RandomSheets(), "output.xls");
+
         return "DONE" + NEWLINE;
     }
 
