@@ -8,4 +8,5 @@
 .idea/vcs.xml
 .idea/workspace.xml
 out/
+*.iml
 .idea/artifacts/turnstile_jar.xml

@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="turnstile:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/turnstile_jar</output-path>
-    <root id="archive" name="cse210.jar">
-      <element id="module-output" name="cse210" />
-      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/jgoodies-forms.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>
