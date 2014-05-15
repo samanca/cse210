@@ -81,6 +81,7 @@ public class frmMain implements ActionListener {
     }
 
     private String process(String input) {
+        /*
         String retVal = "Start processing file " + input + NEWLINE;
         retVal += "Generating output ..." + NEWLINE;
         for (int i = 0; i < 10; i++) {
@@ -91,6 +92,10 @@ public class frmMain implements ActionListener {
         }
         retVal += "Done" + NEWLINE;
         return retVal;
+        */
+        PDFReader p = PDFReader.SingleInstance();
+        p.Import(input, "");
+        return "DONE" + NEWLINE;
     }
 
     private void createUIComponents() {
