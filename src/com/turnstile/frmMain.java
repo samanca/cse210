@@ -81,7 +81,6 @@ public class frmMain implements ActionListener {
     }
 
     private String process(String input) {
-        /*
         String retVal = "Start processing file " + input + NEWLINE;
         retVal += "Generating output ..." + NEWLINE;
         for (int i = 0; i < 10; i++) {
@@ -90,16 +89,24 @@ public class frmMain implements ActionListener {
             pbProgress.setValue(pbProgress.getValue() + 10);
 
         }
+
+        retVal+="Error reading \"Type of Resident\" in sheet 4, row 5: all checkboxes are blank\n" +
+                "Error reading \"Type of Resident\" in sheet 6, row 7: multiple checkboxs are filled\n" +
+                "Error reading \"HVRP\" in sheet 6, row 7: please make sure the checkbox is either blank or completely filled\n" +
+                "Error reading \"Sheet Number\" in page 3 of the PDF file\n" +
+                "Error reading \"Day of Month\" in page 4 of the PDF file\n" +
+                "Error processing page 5 of the PDF file: page does not match the expected format\n";
+
         retVal += "Done" + NEWLINE;
         return retVal;
-        */
-        PDFReader p = PDFReader.SingleInstance();
-        p.Import(input, "");
 
-        ExcelReporter rep = ExcelReporter.SingleInstance();
-        //rep.Export(TSheet.RandomSheets(), "output.xls");
+//        PDFReader p = PDFReader.SingleInstance();
+//        p.Import(input, "");
+//
+//        ExcelReporter rep = ExcelReporter.SingleInstance();
+//        rep.Export(TSheet.RandomSheets(), "output.xls");
 
-        return "DONE" + NEWLINE;
+//        return "DONE" + NEWLINE;
     }
 
     private void createUIComponents() {
