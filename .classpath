@@ -6,6 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="libs/jxl.jar"/>
 	<classpathentry kind="lib" path="libs/PDFRenderer-0.9.1.jar"/>
-	<classpathentry kind="lib" path="libs/opencv-2.4.1.jar"/>
+	<classpathentry kind="lib" path="libs/opencv-2.4.9-5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

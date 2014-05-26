@@ -177,7 +177,7 @@ public class Imageprocess {
 	 public static void main( String[] args )
 	   {
 		 //Simple dummy pain for testing, it loads an image on my desktop for processing
-	      System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+          System.loadLibrary( Core.NATIVE_LIBRARY_NAME);
 	      Mat m = Highgui.imread("C:/Users/linda/Desktop/signin1.jpg");
 	      Imgproc.cvtColor(m, m, Imgproc.COLOR_RGB2GRAY);
 	      
