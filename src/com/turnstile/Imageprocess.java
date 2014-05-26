@@ -8,7 +8,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 
-public class ImageProcess { 	
+public class Imageprocess { 	
 	
 	//Handles processing the image, right now it does only one image at a time
 //	public static int[][] processImage(Mat Image) changed return value to Results -lp
