@@ -10,3 +10,4 @@
 out/
 *.iml
 .idea/artifacts/turnstile_jar.xml
+/bin

@@ -14,7 +14,7 @@ import java.util.List;
 public class Results {
 	
 	static int[][] tallies = new int[32][5];  
-	static List<String> errmsgs = new LinkedList<String>();
+	private static List<String> errmsgs = new LinkedList<String>();
 
   enum ResTypes {Interim, Permanent, Alumnus, Nonresident, HVRP, None}
 	
@@ -49,7 +49,7 @@ public class Results {
 		switch(boxesChecked) {
 		case 0:
 			errmsg = "Error: No resident type, day " + date + ", sheet " + page + ", line " + lineNumber + ".";
-			errmsgs.add(errmsg);
+			getErrmsgs().add(errmsg);
 			break;
 		case 1:
 			tallies[date][checkedBox]+=1;
@@ -57,14 +57,15 @@ public class Results {
 		case 2:
 		case 3:
 			errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + lineNumber + ".";
-			errmsgs.add(errmsg);
+			getErrmsgs().add(errmsg);
 			break;
 		case 4:
 			errmsg = "Line erased? All resident types marked, day " + date + ", sheet " + page + ", line " + lineNumber + ".";
-			errmsgs.add(errmsg);
+			getErrmsgs().add(errmsg);
 			break;
 		default:
 			errmsg = "Boxes checked error."; // should be unreachable
+			getErrmsgs().add(errmsg);
 			break;
 		} // end switch
 			
@@ -89,9 +90,13 @@ public class Results {
 		for (int x = 0; x < 5; x++) {
 			System.out.println("Resident type " + x + " total: " + tallies[date][x] + " on day " + date);
 		}
-		for (String err : errmsgs) {
+		for (String err : getErrmsgs()) {
 			System.out.println(err);
 		}
+	}
+
+	public static List<String> getErrmsgs() {
+		return errmsgs;
 	}
 
 } // end class
