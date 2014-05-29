@@ -31,7 +31,7 @@ public class Imageprocess {
 			int xpos = 47;
 			int ypos = i*21 + 127;
 			//We need to determine if a line has a name on it before we check for line data
-			if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 240) //was 220, got no results
+			if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 223)
 			{
 				int[] lineData = getLine(Image,ypos);
 				Results.analyze(day, sheet, lineData, i); 
@@ -62,15 +62,17 @@ public class Imageprocess {
 		int[] lineInfo = new int[5];
 		for(int i = 0; i < 4; i++)
 		{
-			int xpos = i*55 + 229;
-			if (meanArea(Image,xpos,ypos,xpos+15,ypos+15) < 200)
+
+			int xpos = i*55 + 231;
+			if (meanArea(Image,xpos,ypos,xpos+12,ypos+12) < 170)
 				lineInfo[i] = 1;
 			else
 				lineInfo[i] = 0;
 		}
 		
 		//We do the same for HVRP
-		if(meanArea(Image,873,ypos,888,ypos+15) < 200)
+		//System.out.println(meanArea(Image,875,ypos+3,885,ypos+10));
+		if(meanArea(Image,875,ypos,888,ypos+13) < 170)
 			lineInfo[4] = 1;
 		else
 			lineInfo[4] = 0;
@@ -140,17 +142,18 @@ public class Imageprocess {
 	{
 		
 		//Check to see if the image is landscape or portrait
+		
 		if(Image.width() < Image.height())
-		{	
+		{
+			
 			//If its portrait we perform a transpose and a rotation depending on the alignment box location
 			Image = Image.t();
-			double value = meanArea(Image, 102, 34, 112, 45);
-			if(value < 150)
-				Core.flip(Image, Image, 0);
-			else
+			if(meanArea(Image, 102, 34, 112, 45) < 220)
 				Core.flip(Image, Image, 1);
+			else
+				Core.flip(Image, Image, 0);
 		}//If its its already landscape then we a rotation depending on alignment box
-		else if( meanArea(Image, 895,34, 906, 46) > 150)
+		else if( meanArea(Image, 895,34, 906, 46) > 220)
 		{
 			Core.flip(Image, Image, -1);
 		}
@@ -159,7 +162,7 @@ public class Imageprocess {
 	}
 	
 
-	 static public double meanArea(Mat Image, int uLX, int uLY, int lRX, int lRY)
+	static public double meanArea(Mat Image, int uLX, int uLY, int lRX, int lRY)
 	 {
 		//computes the average pixel value in the image matrix, closer to 255 is white where lower is more black
 		 double test = 0;
@@ -167,7 +170,10 @@ public class Imageprocess {
 		 for(int i = uLX; i <= lRX; i++)
 			 for(int j = uLY; j<= lRY; j++)
 			 {
-				 test += Image.get(j,i)[0];
+				 double val = Image.get(j,i)[0];
+				 val = Math.pow(val, 3);
+				 val = val/Math.pow(255,2);
+				 test += val;
 				 count++;
 			 }
 		 
