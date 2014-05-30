@@ -51,7 +51,7 @@ public class PDFReader {
 
         for (int i = 0; i < pdf.getNumPages(); i++) {
 
-            PDFPage page = pdf.getPage(i);
+            PDFPage page = pdf.getPage(i + 1);
 
             // create the image
             Rectangle rect = new Rectangle(0, 0, (int) page.getBBox().getWidth(),

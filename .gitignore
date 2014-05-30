@@ -16,3 +16,4 @@ MANIFEST.MF
 build/
 dist/
 libs/.DS_Store
+/bin

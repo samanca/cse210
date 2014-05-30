@@ -98,15 +98,15 @@ public class frmMain implements ActionListener {
                 "Error processing page 5 of the PDF file: page does not match the expected format\n";
 
         retVal += "Done" + NEWLINE;
-        return retVal;
+//        return retVal;
 
-//        PDFReader p = PDFReader.SingleInstance();
-//        p.Import(input, "");
+        PDFReader p = PDFReader.SingleInstance();
+        p.Import(input, "");
 //
 //        ExcelReporter rep = ExcelReporter.SingleInstance();
 //        rep.Export(TSheet.RandomSheets(), "output.xls");
 
-//        return "DONE" + NEWLINE;
+        return "DONE" + NEWLINE;
     }
 
     private void createUIComponents() {
