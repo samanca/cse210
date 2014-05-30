@@ -12,29 +12,35 @@ public class Imageprocess {
 	
 	//Handles processing the image, right now it does only one image at a time
 //	public static int[][] processImage(Mat Image) changed return value to Results -lp
-	public static Results processImage(Mat Image)
-
+	public static Results processImage(String[] pathNames)
 	{
-		//first we need to check the rotation of an image and where the alignment box is
-		Image = chkRotate(Image);
-		//Get day number
-		int day = getDay(Image);
-		//Get sheet number
-		int sheet = getSheet(Image);
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		Results results = new Results();
-		
-//		int[][] DATA = new int[32][5];         -lp
-		
-		//find the data for each line on the sign in sheet
-		for(int i = 0; i<20; i++)
+		for(int q = 0; q < pathNames.length; q++)
 		{
-			int xpos = 47;
-			int ypos = i*21 + 127;
-			//We need to determine if a line has a name on it before we check for line data
-			if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 223)
+			String pathName = pathNames[q];
+			Mat Image = Highgui.imread(pathName);
+			Imgproc.cvtColor(Image, Image, Imgproc.COLOR_RGB2GRAY);
+			//first we need to check the rotation of an image and where the alignment box is
+			Image = chkRotate(Image);
+			//Get day number
+			int day = getDay(Image);
+			//Get sheet number
+			int sheet = getSheet(Image);
+
+			//		int[][] DATA = new int[32][5];         -lp
+
+			//find the data for each line on the sign in sheet
+			for(int i = 0; i<20; i++)
 			{
-				int[] lineData = getLine(Image,ypos);
-				Results.analyze(day, sheet, lineData, i); 
+				int xpos = 47;
+				int ypos = i*21 + 127;
+				//We need to determine if a line has a name on it before we check for line data
+				if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 223)
+				{
+					int[] lineData = getLine(Image,ypos);
+					Results.analyze(day, sheet, lineData, i); 
+				}
 			}
 		}
 		
@@ -183,11 +189,12 @@ public class Imageprocess {
 	 public static void main( String[] args )
 	   {
 		 //Simple dummy pain for testing, it loads an image on my desktop for processing
-          System.loadLibrary( Core.NATIVE_LIBRARY_NAME);
-	      Mat m = Highgui.imread("C:/Users/linda/Desktop/signin1.jpg");
-	      Imgproc.cvtColor(m, m, Imgproc.COLOR_RGB2GRAY);
+
+
+		 String[] Test = new String[1]; 
+	     Test[0] = "C:/Users/Family/Desktop/1.jpg";
 	      
-	      processImage(m); 
+	      processImage(Test); 
 	      
 	      
 	   }
