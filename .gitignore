@@ -10,4 +10,10 @@
 out/
 *.iml
 .idea/artifacts/turnstile_jar.xml
+.DS_Store
+.idea/libraries/
+MANIFEST.MF
+build/
+dist/
+libs/.DS_Store
 /bin
