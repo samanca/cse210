@@ -34,12 +34,12 @@ public class Imageprocess {
 			for(int i = 0; i<20; i++)
 			{
 				int xpos = 47;
-				int ypos = i*21 + 127;
+				int ypos = (int) (i*20.85) + 127;
 				//We need to determine if a line has a name on it before we check for line data
 				if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 223)
 				{
 					int[] lineData = getLine(Image,ypos);
-					Results.analyze(day, sheet, lineData, i); 
+					Results.analyze(day, sheet, lineData, i);
 				}
 			}
 		}
@@ -189,8 +189,6 @@ public class Imageprocess {
 	 public static void main( String[] args )
 	   {
 		 //Simple dummy pain for testing, it loads an image on my desktop for processing
-
-
 		 String[] Test = new String[1]; 
 	     Test[0] = "C:/Users/Family/Desktop/1.jpg";
 	      
