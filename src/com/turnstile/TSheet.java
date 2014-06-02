@@ -9,6 +9,7 @@ public class TSheet {
             "Interim",
             "Perm",
             "Alumni",
+            "Nonresident",
             "HVRP"
     };
     public String label;
@@ -51,7 +52,7 @@ public class TSheet {
      * Generates the TSheet with the data corresponding to a month and also
      * generates the TSheet containing the summary of the data.
      * 
-     * @param data  The 31x4 array of data for a specific month
+     * @param data  The 32x5 array of data for a specific month
      * @param month The name of the month the data represents
      * @return      An ArrayList containing the mentioned TSheets
      */
@@ -61,9 +62,9 @@ public class TSheet {
         sheet.label = month;
         sheet.isSummary = false;
     	
-    	for (int i = 0; i < data.length; i++) {
+    	for (int i = 1; i < data.length; i++) {
     		String[] t = new String[sheet.columns.length + 1];
-            t[0] = String.valueOf(i + 1);
+            t[0] = String.valueOf(i);
             for(int j = 1; j < t.length; j++)
                 t[j] = "" + data[i][j - 1];
             sheet.rows.add(t);
@@ -83,7 +84,7 @@ public class TSheet {
         }
         
         // Formula for Total
-        t[t.length - 1] = "SUM(B2:B5)";
+        t[t.length - 1] = "SUM(B2:B" + (sheet.columns.length + 1)+ ")";
         sheet.rows.add(t);
         
         retVal.add(sheet);
