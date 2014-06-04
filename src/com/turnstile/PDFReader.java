@@ -19,7 +19,7 @@ public class PDFReader {
         return singleton;
     }
 
-    public void Import(String pdfPath, String exportPath) {
+    public String[] Import(String pdfPath, String exportPath) {
 
         File pdfFile = new File(pdfPath);
         RandomAccessFile raf;
@@ -28,7 +28,7 @@ public class PDFReader {
         }
         catch (FileNotFoundException ex) {
             //TODO handle this
-            return;
+            return new String[0];
         }
         FileChannel channel = raf.getChannel();
         ByteBuffer buf;
@@ -37,7 +37,7 @@ public class PDFReader {
         }
         catch (IOException ex) {
             //TODO handle this
-            return;
+            return new String[0];
         }
 
         PDFFile pdf;
@@ -46,9 +46,10 @@ public class PDFReader {
         }
         catch (IOException ex) {
             //TODO handle this
-            return;
+            return new String[0];
         }
 
+        String[] images = new String[pdf.getNumPages()];
         for (int i = 0; i < pdf.getNumPages(); i++) {
 
             PDFPage page = pdf.getPage(i + 1);
@@ -71,11 +72,14 @@ public class PDFReader {
             bufImageGraphics.drawImage(image, 0, 0, null);
 
             try {
-                ImageIO.write(bufferedImage, "JPEG", new File(exportPath + i + ".jpg"));
+                images[i] = exportPath + i + ".jpg";
+                ImageIO.write(bufferedImage, "JPEG", new File(images[i]));
             }
             catch (IOException ex) {
                 //TODO handle this
             }
         }
+
+        return images;
     }
 }
