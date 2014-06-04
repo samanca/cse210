@@ -58,7 +58,7 @@ public class Results {
 		switch(boxesChecked) {
 		case 0:	// Name filled in but no box checked
 			tallies[date][ResTypes.ERROR.ordinal()] += 1;  // increment the error resident type 
-			errmsg = "Error: No resident type, day " + date + ", sheet " + page + ", line " + lineNumber + ".";
+			errmsg = "Error: No resident type, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
 			getErrmsgs().add(errmsg);
 			if (DEBUG) System.out.println(errmsg);
 			break;
@@ -70,7 +70,7 @@ public class Results {
 		case 3:
 		case 4:
 			tallies[date][ResTypes.ERROR.ordinal()]+=1;
-			errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + lineNumber + ".";
+			errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
 			getErrmsgs().add(errmsg);
 			if (DEBUG) System.out.println(errmsg);
 			break;
