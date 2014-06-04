@@ -26,6 +26,7 @@ public class Imageprocess {
 			//Get day number
 			int day = getDay(Image);
 			//Get sheet number
+			System.out.println(day);
 			int sheet = getSheet(Image);
 
 			//		int[][] DATA = new int[32][5];         -lp
@@ -36,7 +37,7 @@ public class Imageprocess {
 				int xpos = 47;
 				int ypos = (int) (i*20.85) + 127;
 				//We need to determine if a line has a name on it before we check for line data
-				if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 223)
+				if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 200)
 				{
 					int[] lineData = getLine(Image,ypos);
 					Results.analyze(day, sheet, lineData, i);
@@ -190,7 +191,7 @@ public class Imageprocess {
 	   {
 		 //Simple dummy pain for testing, it loads an image on my desktop for processing
 		 String[] Test = new String[1]; 
-	     Test[0] = "C:/Users/Family/Desktop/1.jpg";
+	     Test[0] = "C:/Users/Brian/Desktop/0.jpg";
 	      
 	      processImage(Test); 
 	      
