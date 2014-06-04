@@ -63,8 +63,8 @@ public class Results {
 			if (DEBUG) System.out.println(errmsg);
 			break;
 		case 1:	// Name filled in and 1 box checked; increment that 
-			tallies[date][checkedBox]+=1;
-			if (DEBUG) System.out.println("Incremented " + ResTypes.values()[checkedBox]);
+			tallies[date][checkedBox+1]+=1;
+			if (DEBUG) System.out.println("Incremented " + ResTypes.values()[checkedBox+1]);
 			break;
 		case 2:	// Name filled in and 2, 3, or 4 boxes checked
 		case 3:
