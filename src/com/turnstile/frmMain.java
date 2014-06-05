@@ -106,7 +106,7 @@ public class frmMain implements ActionListener {
         Logger.SingleInstance().Write("output.txt", log);
 
         // Filter (4): DATA-ARRAY to EXCEL-FRIENDLY
-        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "June");
+        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "Month"); // Used as the sheet label
 
         // Filter (5): EXCEL-FRIENDLY to EXCEL
         ExcelReporter reporter = ExcelReporter.SingleInstance();
