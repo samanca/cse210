@@ -96,7 +96,6 @@ public class frmMain implements ActionListener {
         reporter.Export(sheets, "output.xls");
         String log = Logger.SingleInstance().Serialize(results.getErrmsgs());
         Logger.SingleInstance().Write("output.txt", log);
-
         return log;
     }
 
