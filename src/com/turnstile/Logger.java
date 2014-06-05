@@ -31,7 +31,7 @@ public class Logger {
         }
 
         byte[] myBytes = log.getBytes();
-        
+
         try {
             fooStream.write(myBytes);
         } catch (IOException e) {

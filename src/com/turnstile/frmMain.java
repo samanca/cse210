@@ -2,6 +2,8 @@ package com.turnstile;
 
 //import com.sun.org.apache.bcel.internal.generic.NEW;
 
+import org.apache.commons.io.FilenameUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,7 +38,14 @@ public class frmMain implements ActionListener {
         }
         else if (e.getSource() == btnProcess) {
             if (inputFile != null) {
-                txtOutput.setText(process(inputFile));
+                String ext = FilenameUtils.getExtension(inputFile);
+                if (ext.equals("pdf"))
+                    txtOutput.setText(process(inputFile));
+                else
+                    txtOutput.setText("Invalid input file detected! Only PDF files are acceptable!");
+            }
+            else {
+                txtOutput.setText("No file selected!");
             }
         }
         else {
@@ -80,12 +89,12 @@ public class frmMain implements ActionListener {
 
     private String process(String input) {
 
-        String[] pipe1 = PDFReader.SingleInstance().Import(input, "");
-        Results pipe2 = Imageprocess.process(pipe1);
-        ArrayList<TSheet> sheets = TSheet.generateMonth(pipe2.tallies, "June");
+        String[] images = PDFReader.SingleInstance().Import(input, ""); // Temporary directory
+        Results results = Imageprocess.process(images);
+        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "June");
         ExcelReporter reporter = ExcelReporter.SingleInstance();
         reporter.Export(sheets, "output.xls");
-        String log = Logger.SingleInstance().Serialize(pipe2.getErrmsgs());
+        String log = Logger.SingleInstance().Serialize(results.getErrmsgs());
         Logger.SingleInstance().Write("output.txt", log);
 
         return log;
