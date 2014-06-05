@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.filechooser.*;
 import java.io.*;
-import java.lang.Thread;
+import java.util.ArrayList;
 
 /**
  * Main interface class
@@ -17,8 +17,6 @@ import java.lang.Thread;
  */
 
 public class frmMain implements ActionListener {
-
-    static final String NEWLINE = "\r\n";
 
     private JButton btnLoad;
     private JPanel pnMain;
@@ -82,34 +80,15 @@ public class frmMain implements ActionListener {
 
     private String process(String input) {
 
-//        String retVal = "Start processing file " + input + NEWLINE;
-//        retVal += "Generating output ..." + NEWLINE;
-//        for (int i = 0; i < 10; i++) {
-//            retVal += "Processing page " + i + " ..." + NEWLINE;
-//            try { Thread.sleep(100); } catch (Exception ex) {}
-//            pbProgress.setValue(pbProgress.getValue() + 10);
-//
-//        }
-//
-//        retVal+="Error reading \"Type of Resident\" in sheet 4, row 5: all checkboxes are blank\n" +
-//                "Error reading \"Type of Resident\" in sheet 6, row 7: multiple checkboxs are filled\n" +
-//                "Error reading \"HVRP\" in sheet 6, row 7: please make sure the checkbox is either blank or completely filled\n" +
-//                "Error reading \"Sheet Number\" in page 3 of the PDF file\n" +
-//                "Error reading \"Day of Month\" in page 4 of the PDF file\n" +
-//                "Error processing page 5 of the PDF file: page does not match the expected format\n";
-//
-//        retVal += "Done" + NEWLINE;
-//        return retVal;
-
         String[] pipe1 = PDFReader.SingleInstance().Import(input, "");
-        Results pipe2 = Imageprocess.main(pipe1);
+        Results pipe2 = Imageprocess.process(pipe1);
+        ArrayList<TSheet> sheets = TSheet.generateMonth(pipe2.tallies, "June");
+        ExcelReporter reporter = ExcelReporter.SingleInstance();
+        reporter.Export(sheets, "output.xls");
+        String log = Logger.SingleInstance().Serialize(pipe2.getErrmsgs());
+        Logger.SingleInstance().Write("output.txt", log);
 
-
-//
-//        ExcelReporter rep = ExcelReporter.SingleInstance();
-//        rep.Export(TSheet.RandomSheets(), "output.xls");
-
-        return "DONE" + NEWLINE;
+        return log;
     }
 
     private void createUIComponents() {

@@ -187,14 +187,7 @@ public class Imageprocess {
 		 return(test/count);
 	 }
 	 
-	 public static void main( String[] args )
-	   {
-		 //Simple dummy pain for testing, it loads an image on my desktop for processing
-		 String[] Test = new String[1]; 
-	     Test[0] = "C:/Users/Brian/Desktop/0.jpg";
-	      
-	      processImage(Test); 
-	      
-	      
-	   }
+	 public static Results process(String[] args) {
+            return processImage(args);
+     }
 }
