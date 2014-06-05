@@ -89,13 +89,29 @@ public class frmMain implements ActionListener {
 
     private String process(String input) {
 
-        String[] images = PDFReader.SingleInstance().Import(input, ""); // Temporary directory
+        // Filter (1): PDF to IMAGE
+        String[] images;
+        try {
+             images = PDFReader.SingleInstance().Import(input, ""); // Temporary directory
+        }
+        catch (Exception ex) {
+            return ex.getMessage();
+        }
+
+        // Filter (2): IMAGE to DATA-ARRAY
         Results results = Imageprocess.process(images);
-        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "June");
-        ExcelReporter reporter = ExcelReporter.SingleInstance();
-        reporter.Export(sheets, "output.xls");
+
+        // Filter (3): DATA-ARRAY to OUTPUT-LOG
         String log = Logger.SingleInstance().Serialize(results.getErrmsgs());
         Logger.SingleInstance().Write("output.txt", log);
+
+        // Filter (4): DATA-ARRAY to EXCEL-FRIENDLY
+        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "June");
+
+        // Filter (5): EXCEL-FRIENDLY to EXCEL
+        ExcelReporter reporter = ExcelReporter.SingleInstance();
+        reporter.Export(sheets, "output.xls");
+
         return log;
     }
 
