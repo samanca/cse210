@@ -92,7 +92,7 @@ public class frmMain implements ActionListener {
         // Filter (1): PDF to IMAGE
         String[] images;
         try {
-             images = PDFReader.SingleInstance().Import(input, ""); // Temporary directory
+             images = PDFReader.SingleInstance().Import(input, "temp/"); // Temporary directory
         }
         catch (Exception ex) {
             return ex.getMessage();

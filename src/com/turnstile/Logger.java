@@ -14,9 +14,10 @@ public class Logger {
     }
 
     public String Serialize(List<String> data) {
+        int counter = 0;
         String retVal = "";
         for (String line : data) {
-            retVal += line + NEWLINE;
+            retVal += (++counter) + "\t" + line + NEWLINE;
         }
         return retVal;
     }
