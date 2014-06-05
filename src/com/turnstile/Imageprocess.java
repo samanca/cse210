@@ -79,7 +79,7 @@ public class Imageprocess {
 		
 		//We do the same for HVRP
 		//System.out.println(meanArea(Image,875,ypos+3,885,ypos+10));
-		if(meanArea(Image,874,ypos,887,ypos+13) < 170)
+		if(meanArea(Image,874,ypos,887,ypos+12) < 170)
 			lineInfo[4] = 1;
 		else
 			lineInfo[4] = 0;
@@ -109,25 +109,25 @@ public class Imageprocess {
 		double[] day = new double[10];
 		for(int i = 0; i < 4; i++)
 		{
-			int xpos = i*30 + 487;
+			int xpos = i*29 + 487;
 			int ypos = 62;
 			month[i]= meanArea(Image,xpos,ypos,xpos+7,ypos+7);
 		}
 		for(int i = 0; i < 10; i++)
 		{
-			int xpos = i*25 + 487;
+			int xpos = i*24 + 487;
 			int ypos = 78;
 			day[i] = meanArea(Image,xpos,ypos,xpos+7,ypos+7);
 		}
 		
 		//Since the boxes are small and the quality of the compression isn't very good
 		//taking the scanned box with the most black pixels and assume thats the correct box (for now)
-		int tempD = min(day);
+		int tempD = min(day) + 1;
 		int tempM = min(month);
-		if (tempD == 9)
+		if (tempD == 10)
 			tempD = 0;
 		
-		return (tempD + 1 + tempM*10);
+		return (tempD + tempM*10);
 	}
 	
 
