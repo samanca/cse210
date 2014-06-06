@@ -93,7 +93,7 @@ public class frmMain implements ActionListener {
         String[] images;
         try {
              //images = PDFReader.SingleInstance().Import(input, "temp/"); // Temporary directory
-            images = GhostPDFReader.SingleInstance().Import(input, "temp/");
+            images = PDFBoxReader.SingleInstance().Import(input, "temp/");
         }
         catch (Exception ex) {
             return ex.getMessage();
