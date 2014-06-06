@@ -19,7 +19,7 @@ public class PDFReader {
         return singleton;
     }
 
-    public String[] Import(String pdfPath, String exportPath) {
+    public String[] Import(String pdfPath, String exportPath) throws Exception{
 
         File pdfFile = new File(pdfPath);
         RandomAccessFile raf;
@@ -27,8 +27,7 @@ public class PDFReader {
             raf = new RandomAccessFile(pdfFile, "r");
         }
         catch (FileNotFoundException ex) {
-            //TODO handle this
-            return new String[0];
+            throw new Exception("Unable to read input PDF file!");
         }
         FileChannel channel = raf.getChannel();
         ByteBuffer buf;
@@ -36,8 +35,7 @@ public class PDFReader {
             buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
         }
         catch (IOException ex) {
-            //TODO handle this
-            return new String[0];
+            throw new Exception("Unable to read input PDF file!");
         }
 
         PDFFile pdf;
@@ -45,8 +43,7 @@ public class PDFReader {
             pdf = new PDFFile(buf);
         }
         catch (IOException ex) {
-            //TODO handle this
-            return new String[0];
+            throw new Exception("Unable to open input PDF file!");
         }
 
         String[] images = new String[pdf.getNumPages()];
@@ -71,12 +68,15 @@ public class PDFReader {
             Graphics2D bufImageGraphics = bufferedImage.createGraphics();
             bufImageGraphics.drawImage(image, 0, 0, null);
 
+            if (rect.width > rect.height)
+                throw new Exception("Invalid input file! The file must be in a landscape orientation!");
+
             try {
                 images[i] = exportPath + i + ".jpg";
                 ImageIO.write(bufferedImage, "JPEG", new File(images[i]));
             }
             catch (IOException ex) {
-                //TODO handle this
+                throw new Exception("Unable to save data on disk!");
             }
         }
 

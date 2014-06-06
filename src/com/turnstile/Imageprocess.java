@@ -26,6 +26,7 @@ public class Imageprocess {
 			//Get day number
 			int day = getDay(Image);
 			//Get sheet number
+			System.out.println(day);
 			int sheet = getSheet(Image);
 
 			//		int[][] DATA = new int[32][5];         -lp
@@ -33,10 +34,10 @@ public class Imageprocess {
 			//find the data for each line on the sign in sheet
 			for(int i = 0; i<20; i++)
 			{
-				int xpos = 47;
-				int ypos = (int) (i*20.85) + 127;
+				int xpos = 46;
+				int ypos = (int) Math.round((i*20.85) + 126);
 				//We need to determine if a line has a name on it before we check for line data
-				if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 223)
+				if(meanArea(Image,xpos,ypos,xpos+161,ypos+21) <= 200)
 				{
 					int[] lineData = getLine(Image,ypos);
 					Results.analyze(day, sheet, lineData, i);
@@ -69,7 +70,7 @@ public class Imageprocess {
 		for(int i = 0; i < 4; i++)
 		{
 
-			int xpos = i*55 + 231;
+			int xpos = i*55 + 230;
 			if (meanArea(Image,xpos,ypos,xpos+12,ypos+12) < 170)
 				lineInfo[i] = 1;
 			else
@@ -78,7 +79,7 @@ public class Imageprocess {
 		
 		//We do the same for HVRP
 		//System.out.println(meanArea(Image,875,ypos+3,885,ypos+10));
-		if(meanArea(Image,875,ypos,888,ypos+13) < 170)
+		if(meanArea(Image,874,ypos,887,ypos+12) < 170)
 			lineInfo[4] = 1;
 		else
 			lineInfo[4] = 0;
@@ -93,8 +94,8 @@ public class Imageprocess {
 		double[] sheetNo = new double[9];
 		for(int i = 0; i < 9; i++)
 		{
-			int xpos = i*22 + 718;
-			int ypos = 58;
+			int xpos = i*22 + 717;
+			int ypos = 57;
 			sheetNo[i] = meanArea(Image,xpos,ypos,xpos+8,ypos+8);
 		}
 		return(min(sheetNo)+1);
@@ -108,25 +109,25 @@ public class Imageprocess {
 		double[] day = new double[10];
 		for(int i = 0; i < 4; i++)
 		{
-			int xpos = i*30 + 488;
-			int ypos = 63;
+			int xpos = i*29 + 487;
+			int ypos = 62;
 			month[i]= meanArea(Image,xpos,ypos,xpos+7,ypos+7);
 		}
 		for(int i = 0; i < 10; i++)
 		{
-			int xpos = i*25 + 488;
-			int ypos = 79;
+			int xpos = i*24 + 487;
+			int ypos = 78;
 			day[i] = meanArea(Image,xpos,ypos,xpos+7,ypos+7);
 		}
 		
 		//Since the boxes are small and the quality of the compression isn't very good
 		//taking the scanned box with the most black pixels and assume thats the correct box (for now)
-		int tempD = min(day);
+		int tempD = min(day) + 1;
 		int tempM = min(month);
-		if (tempD == 9)
+		if (tempD == 10)
 			tempD = 0;
 		
-		return (tempD + 1 + tempM*10);
+		return (tempD + tempM*10);
 	}
 	
 
@@ -174,26 +175,21 @@ public class Imageprocess {
 		 double test = 0;
 		 int count = 0;
 		 for(int i = uLX; i <= lRX; i++)
+		 {
 			 for(int j = uLY; j<= lRY; j++)
 			 {
 				 double val = Image.get(j,i)[0];
-				 val = Math.pow(val, 3);
-				 val = val/Math.pow(255,2);
 				 test += val;
 				 count++;
 			 }
-		 
-		 return(test/count);
+		 }
+		 test = test/count;
+		 test = Math.pow(test,3);
+		 test = test/Math.pow(255,2);
+		 return(test);
 	 }
 	 
-	 public static void main( String[] args )
-	   {
-		 //Simple dummy pain for testing, it loads an image on my desktop for processing
-		 String[] Test = new String[1]; 
-	     Test[0] = "C:/Users/Family/Desktop/1.jpg";
-	      
-	      processImage(Test); 
-	      
-	      
-	   }
+	 public static Results process(String[] args) {
+            return processImage(args);
+     }
 }

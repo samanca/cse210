@@ -2,13 +2,15 @@ package com.turnstile;
 
 //import com.sun.org.apache.bcel.internal.generic.NEW;
 
+import org.apache.commons.io.FilenameUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.filechooser.*;
 import java.io.*;
-import java.lang.Thread;
+import java.util.ArrayList;
 
 /**
  * Main interface class
@@ -17,8 +19,6 @@ import java.lang.Thread;
  */
 
 public class frmMain implements ActionListener {
-
-    static final String NEWLINE = "\r\n";
 
     private JButton btnLoad;
     private JPanel pnMain;
@@ -38,7 +38,14 @@ public class frmMain implements ActionListener {
         }
         else if (e.getSource() == btnProcess) {
             if (inputFile != null) {
-                txtOutput.setText(process(inputFile));
+                String ext = FilenameUtils.getExtension(inputFile);
+                if (ext.equals("pdf"))
+                    txtOutput.setText(process(inputFile));
+                else
+                    txtOutput.setText("Invalid input file detected! Only PDF files are acceptable!");
+            }
+            else {
+                txtOutput.setText("No file selected!");
             }
         }
         else {
@@ -82,34 +89,30 @@ public class frmMain implements ActionListener {
 
     private String process(String input) {
 
-//        String retVal = "Start processing file " + input + NEWLINE;
-//        retVal += "Generating output ..." + NEWLINE;
-//        for (int i = 0; i < 10; i++) {
-//            retVal += "Processing page " + i + " ..." + NEWLINE;
-//            try { Thread.sleep(100); } catch (Exception ex) {}
-//            pbProgress.setValue(pbProgress.getValue() + 10);
-//
-//        }
-//
-//        retVal+="Error reading \"Type of Resident\" in sheet 4, row 5: all checkboxes are blank\n" +
-//                "Error reading \"Type of Resident\" in sheet 6, row 7: multiple checkboxs are filled\n" +
-//                "Error reading \"HVRP\" in sheet 6, row 7: please make sure the checkbox is either blank or completely filled\n" +
-//                "Error reading \"Sheet Number\" in page 3 of the PDF file\n" +
-//                "Error reading \"Day of Month\" in page 4 of the PDF file\n" +
-//                "Error processing page 5 of the PDF file: page does not match the expected format\n";
-//
-//        retVal += "Done" + NEWLINE;
-//        return retVal;
+        // Filter (1): PDF to IMAGE
+        String[] images;
+        try {
+             images = PDFReader.SingleInstance().Import(input, "temp/"); // Temporary directory
+        }
+        catch (Exception ex) {
+            return ex.getMessage();
+        }
 
-        String[] pipe1 = PDFReader.SingleInstance().Import(input, "");
-        Results pipe2 = Imageprocess.main(pipe1);
+        // Filter (2): IMAGE to DATA-ARRAY
+        Results results = Imageprocess.process(images);
 
+        // Filter (3): DATA-ARRAY to OUTPUT-LOG
+        String log = Logger.SingleInstance().Serialize(results.getErrmsgs());
+        Logger.SingleInstance().Write("output.txt", log);
 
-//
-//        ExcelReporter rep = ExcelReporter.SingleInstance();
-//        rep.Export(TSheet.RandomSheets(), "output.xls");
+        // Filter (4): DATA-ARRAY to EXCEL-FRIENDLY
+        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "Month"); // Used as the sheet label
 
-        return "DONE" + NEWLINE;
+        // Filter (5): EXCEL-FRIENDLY to EXCEL
+        ExcelReporter reporter = ExcelReporter.SingleInstance();
+        reporter.Export(sheets, "output.xls");
+
+        return log;
     }
 
     private void createUIComponents() {
