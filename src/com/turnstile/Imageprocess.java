@@ -190,6 +190,8 @@ public class Imageprocess {
 	 }
 	 
 	 public static Results process(String[] args) {
-            return processImage(args);
+         // Added to clean the static variables used in the Results class before processing each load
+         Results.clean();
+         return processImage(args);
      }
 }

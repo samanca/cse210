@@ -23,6 +23,13 @@ public class Results {
 
 	public enum ResTypes {ERROR, INTERIM, PERM, ALUMNUS, NONRESIDENT, HVRP}
 
+    public static void clean() {
+        for (int i = 0; i < tallies.length; i++)
+            for (int j = 0; j < tallies[i].length; j++)
+                tallies[i][j] = 0;
+        errmsgs.clear();
+    }
+
 	public static void analyze(int date, int page, int[] lineArray, int lineNumber){
 	/* preconditions:
 	 *  date between 1 and 31
