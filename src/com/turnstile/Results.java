@@ -74,10 +74,12 @@ public class Results {
 		case 1:	// Name filled in and 1 box checked; increment that 
 			tallies[date][checkedBox+1]+=1;
 			if (DEBUG) System.out.println("Incremented " + ResTypes.values()[checkedBox+1]);
-			tallies[date][ResTypes.INDETERMINATE.ordinal()]+=1;
-			//errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
-			//getErrmsgs().add(errmsg);
-			//if (DEBUG) System.out.println(errmsg);
+			
+			/*tallies[date][ResTypes.INDETERMINATE.ordinal()]+=1;
+			 * errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
+			 * getErrmsgs().add(errmsg);
+			 *if (DEBUG) System.out.println(errmsg);
+			 */
 			break;
 		default: // should be unreachable
 			System.out.println( "Internal error."); 
