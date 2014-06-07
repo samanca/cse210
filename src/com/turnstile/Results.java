@@ -15,19 +15,18 @@ public class Results {
 	//set debug to true to turn on print msgs
 	static boolean DEBUG = false;
 	
-	// create 31x6 matrix. the rows correspond to days of a month. they won't all be filled. 
 	// the columns correspond to resident types in the order of the Enum ResTypes below.
-	// NOW THIS IS 32X6 TO ACCOMMODATE BAD DATES (index 0)
+	// 32X6 = 31 days of month plus bad/missing date (index 0) BY 6 resident types
 	static int[][] tallies = new int[32][6];  
-	private static List<String> errmsgs = new LinkedList<String>();
+	//private static List<String> errmsgs = new LinkedList<String>();
 
-	public enum ResTypes {ERROR, INTERIM, PERM, ALUMNUS, NONRESIDENT, HVRP}
+	public enum ResTypes {INDETERMINATE, INTERIM, PERM, ALUMNI, NONRESIDENT, HVRP}
 
     public static void clean() {
         for (int i = 0; i < tallies.length; i++)
             for (int j = 0; j < tallies[i].length; j++)
                 tallies[i][j] = 0;
-        errmsgs.clear();
+        //errmsgs.clear();
     }
 
 	public static void analyze(int date, int page, int[] lineArray, int lineNumber){
@@ -49,9 +48,9 @@ public class Results {
 		
 		int boxesChecked = 0;
 		int checkedBox = 0;
-		int boxes = lineArray.length - 1; // look at all boxes except hvrp
+		int boxes = lineArray.length - 1; // analyze all res-type boxes except hvrp
 		int box;
-		String errmsg;
+		//String errmsg; no longer reporting errors
 
 		// check each box in the line to find those that are checked.
 		for ( box = 0; box < boxes; box++) {
@@ -64,26 +63,24 @@ public class Results {
 		// increment tallies iff boxesChecked = 1, else add errmsg to list
 		switch(boxesChecked) {
 		case 0:	// Name filled in but no box checked
-			tallies[date][ResTypes.ERROR.ordinal()] += 1;  // increment the error resident type 
-			errmsg = "Error: No resident type, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
-			getErrmsgs().add(errmsg);
-			if (DEBUG) System.out.println(errmsg);
+		case 2:	// Name filled in and 2, 3, or 4 boxes checked
+		case 3:
+		case 4:
+			tallies[date][ResTypes.INDETERMINATE.ordinal()] += 1;  // increment the error resident type 
+			//errmsg = "Error: No resident type, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
+			//getErrmsgs().add(errmsg);
+			//if (DEBUG) System.out.println(errmsg);
 			break;
 		case 1:	// Name filled in and 1 box checked; increment that 
 			tallies[date][checkedBox+1]+=1;
 			if (DEBUG) System.out.println("Incremented " + ResTypes.values()[checkedBox+1]);
-			break;
-		case 2:	// Name filled in and 2, 3, or 4 boxes checked
-		case 3:
-		case 4:
-			tallies[date][ResTypes.ERROR.ordinal()]+=1;
-			errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
-			getErrmsgs().add(errmsg);
-			if (DEBUG) System.out.println(errmsg);
+			tallies[date][ResTypes.INDETERMINATE.ordinal()]+=1;
+			//errmsg = "Error: Multiple resident types, day " + date + ", sheet " + page + ", line " + (lineNumber+1) + ".";
+			//getErrmsgs().add(errmsg);
+			//if (DEBUG) System.out.println(errmsg);
 			break;
 		default: // should be unreachable
-			errmsg = "Internal error.";
-			getErrmsgs().add(errmsg);
+			System.out.println( "Internal error."); 
 			break;
 		} // end switch
 
@@ -101,7 +98,7 @@ public class Results {
 		 *  results object exists
 		 * postconditions:
 		 *  prints day's counts broken down by resident type.
-		 *  prints day's errors.
+		 *  prints day's errors.  NOPE NOT ANYMORE
 		 * invariants: 
 		 *  date, data unchanged.....
 		 */
@@ -109,15 +106,18 @@ public class Results {
 		for (int x = 0; x < ResTypes.values().length; x++) {
 			System.out.println("Resident type " + ResTypes.values()[x] + " total: " + tallies[date][x] + " on day " + date);
 		}
+		/*
 		for (String err : getErrmsgs()) {
 			System.out.println(err);
 		}
+		*/
 	}
 
-	
+	/*
 	public static List<String> getErrmsgs() {
 		return errmsgs;
 	}
+	*/
 
 } // end class
 		
