@@ -52,11 +52,16 @@ public class frmMain implements ActionListener {
         btnProcess.addActionListener(this);
     }
 
+    private static String getStartupMessage(){
+        return "Turnstile reads scanned sign-in sheets and compiles a report of Depot attendance. " +
+                "To begin, click Load Scanned Sheets to choose a PDF file. Click OK to start.";
+    }
+
     public static void main(String[] args) {
 
         frmMain obj = new frmMain();
-
         JFrame frame = new JFrame("frmMain");
+        JOptionPane.showMessageDialog (null,frmMain.getStartupMessage());
         frame.setContentPane(obj.pnMain);
         frame.setTitle("Turnstile");
         frame.setPreferredSize(new Dimension(800, 600));
