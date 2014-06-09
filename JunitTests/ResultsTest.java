@@ -59,7 +59,7 @@ public class ResultsTest {
 	public final void testAnalyze1() {
 		 System.out.println("testAnalyze1");
 	     Boolean expResult = false;
-	     String expErrMsg = "Line erased? All resident types marked, day 1, sheet 1, line 0.";
+	     String expErrMsg = "Error: Multiple resident types, day 1, sheet 1, line 0.";
 	     int[] lineArray = {1,1,1,1,0};
 		 Results.analyze(1, 1, lineArray, 0);
 	     List<String> errmsgs = Results.getErrmsgs();

@@ -17,3 +17,6 @@ build/
 dist/
 libs/.DS_Store
 /bin
+*.jpg
+output.txt
+output.xls

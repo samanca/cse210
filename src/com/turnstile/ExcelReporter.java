@@ -45,7 +45,13 @@ public class ExcelReporter {
 
             // Visitor types
             for (int i = 0; i < rawSheet.columns.length; i++) {
-                Label t = new Label(0, i + 1, rawSheet.columns[i]);
+                Label t;
+                if (!rawSheet.isSummary) {
+                    t = new Label(i + 1, 0, rawSheet.columns[i]);
+                }
+                else {
+                    t = new Label(0, i + 1, rawSheet.columns[i]);
+                }
                 try {
                     sheet.addCell(t);
                 }
@@ -71,7 +77,7 @@ public class ExcelReporter {
                 for(int i = 0; i < row.length; i++) {
                     WritableCell t;
                     if (!rawSheet.isSummary) {
-                    	t = new Number(rowNumber, i, Double.parseDouble(row[i]));
+                    	t = new Number(i, rowNumber, Double.parseDouble(row[i]));
                     }
                     else {
                     	t = new Formula(rowNumber, i, row[i]);
