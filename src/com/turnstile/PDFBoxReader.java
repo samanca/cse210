@@ -19,12 +19,14 @@ public class PDFBoxReader {
     }
 
     private static final String ERR_FILE_OPEN = "Error while trying to open the input file. Please make sure the " +
-            "PDF file is readable!";
-    private static final String ERR_RENDER_PDF = "Error while processing the input file. Please make sure you " +
-            "have provided a proper PDF file!";
+            "PDF file is readable, then try again.";
 
-    private static final String ERR_SAVE_JPEG = "Error while saving temporary results! Make sure you are running " +
-            "the program in the right directory!";
+    private static final String ERR_RENDER_PDF = "Error while processing the input file. Please make sure you " +
+            "have provided a proper PDF file, then try again.";
+
+    private static final String ERR_SAVE_JPEG = "Error while saving temporary results. Make sure you are running " +
+            "the program in the right directory. Please close the program and run it again from the where it is " +
+            "installed on your computer.";
 
     public String[] Import(String pdfPath, String exportPath) throws Exception{
 

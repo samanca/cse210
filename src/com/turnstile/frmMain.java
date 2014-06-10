@@ -1,7 +1,5 @@
 package com.turnstile;
 
-//import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
@@ -10,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.filechooser.*;
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Main interface class
@@ -33,19 +30,23 @@ public class frmMain implements ActionListener {
         if (e.getSource() == btnLoad) {
             inputFile = openFileDialog();
             if (inputFile != null) {
-                System.out.println("input: " + inputFile);
+                String fileName = FilenameUtils.getName(inputFile);
+                txtOutput.setText("Your file, \"" + fileName + "\", loaded successfully. Ready to generate report.");
             }
         }
         else if (e.getSource() == btnProcess) {
             if (inputFile != null) {
                 String ext = FilenameUtils.getExtension(inputFile);
-                if (ext.equals("pdf"))
-                    txtOutput.setText(process(inputFile));
-                else
-                    txtOutput.setText("Invalid input file detected! Only PDF files are acceptable!");
+                if (ext.equals("pdf")) {
+                    txtOutput.setText("");
+                    new BackgroundWorker(inputFile, txtOutput).execute();
+                }
+                else {
+                    txtOutput.setText("Incorrect file type. Click Load Scanned Sheets again and choose a PDF file.");
+                }
             }
             else {
-                txtOutput.setText("No file selected!");
+                txtOutput.setText("No file selected. Click Load Scanned Sheets and select a PDF file.");
             }
         }
         else {
@@ -90,35 +91,6 @@ public class frmMain implements ActionListener {
             return file.getAbsolutePath();
         }
         return null;
-    }
-
-    private String process(String input) {
-
-        // Filter (1): PDF to IMAGE
-        String[] images;
-        try {
-             //images = PDFReader.SingleInstance().Import(input, "temp/"); // Temporary directory
-            images = PDFBoxReader.SingleInstance().Import(input, "temp/");
-        }
-        catch (Exception ex) {
-            return ex.getMessage();
-        }
-
-        // Filter (2): IMAGE to DATA-ARRAY
-        Results results = Imageprocess.process(images);
-
-        // Filter (3): DATA-ARRAY to OUTPUT-LOG
-        String log = Logger.SingleInstance().Serialize(results.getErrmsgs());
-        Logger.SingleInstance().Write("output.txt", log);
-
-        // Filter (4): DATA-ARRAY to EXCEL-FRIENDLY
-        ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "Month"); // Used as the sheet label
-
-        // Filter (5): EXCEL-FRIENDLY to EXCEL
-        ExcelReporter reporter = ExcelReporter.SingleInstance();
-        reporter.Export(sheets, "output.xls");
-
-        return log;
     }
 
     private void createUIComponents() {
