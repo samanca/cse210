@@ -38,7 +38,6 @@ public class frmMain implements ActionListener {
             if (inputFile != null) {
                 String ext = FilenameUtils.getExtension(inputFile);
                 if (ext.equals("pdf")) {
-                    txtOutput.setText("");
                     new BackgroundWorker(inputFile, txtOutput).execute();
                 }
                 else {

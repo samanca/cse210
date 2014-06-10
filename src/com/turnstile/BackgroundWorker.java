@@ -32,9 +32,9 @@ public class BackgroundWorker extends SwingWorker<String, String> {
         Results results = Imageprocess.process(images);
 
         // Filter (3): DATA-ARRAY to OUTPUT-LOG
-        String log = "";//Logger.SingleInstance().Serialize(results.getErrmsgs());
-        Logger.SingleInstance().Write("output.txt", log);
-        publish(log);
+//        String log = Logger.SingleInstance().Serialize(results.getErrmsgs());
+//        Logger.SingleInstance().Write("output.txt", log);
+//        publish(log);
 
         // Filter (4): DATA-ARRAY to EXCEL-FRIENDLY
         ArrayList<TSheet> sheets = TSheet.generateMonth(results.tallies, "Month"); // Used as the sheet label
@@ -49,6 +49,7 @@ public class BackgroundWorker extends SwingWorker<String, String> {
     }
 
     protected void process(List<String> item) {
+        textArea.setText("");
         for (String s : item)
             textArea.append(s + "\n");
     }
