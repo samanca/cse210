@@ -59,17 +59,6 @@ public class ExcelReporter {
                     //TODO handle this
                 }
             }
-            
-            // Add row for total
-            if (rawSheet.isSummary) {
-            	Label t = new Label(0, rawSheet.columns.length + 1, "Total");
-                try {
-                    sheet.addCell(t);
-                }
-                catch (WriteException ex) {
-                    //TODO handle this
-                }
-            } 
 
             // Export data
             int rowNumber = 1;
@@ -90,6 +79,28 @@ public class ExcelReporter {
                     }
                 }
                 rowNumber++;
+            }
+            
+            
+            // Add statistics
+            if (rawSheet.isSummary) {
+                try {
+                    Label t = new Label(0, 11, "Average");
+                    sheet.addCell(t);
+                    t = new Label(1, 11, sheets.get(0).average);
+                    sheet.addCell(t);
+                    t = new Label(0, 12, "High");
+                    sheet.addCell(t);
+                    t = new Label(1, 12, sheets.get(0).high);
+                    sheet.addCell(t);
+                    t = new Label(0, 13, "Low");
+                    sheet.addCell(t);
+                    t = new Label(1, 13, sheets.get(0).low);
+                    sheet.addCell(t);
+                }
+                catch (WriteException ex) {
+                    //TODO handle this
+                }
             }
         }
 

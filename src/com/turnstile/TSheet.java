@@ -10,10 +10,14 @@ public class TSheet {
             "Alumni",
             "Nonresident",
             "HVRP",
-            "Indeterminate"
+            "Indeterminate",
+            "Total"
     };
     public String label;
     public boolean isSummary = false;
+    public String average;  // Avergae attendance for the month
+    public String high;      // Min attendance for the month and which days
+    public String low;      // Max attendance for the month and which days
 
     public TSheet() {
         rows = new ArrayList<String[]>();
@@ -36,12 +40,43 @@ public class TSheet {
     	for (int i = 1; i < data.length; i++) {
     		String[] t = new String[sheet.columns.length + 1];
             t[0] = String.valueOf(i);
-            for(int j = 1; j < t.length - 1; j++)
+            int total = 0;
+            for(int j = 1; j < t.length - 2; j++) {
                 t[j] = "" + data[i][j];
-            t[t.length - 1] = "" + data[i][0];
+                if (j != 5) {
+                    total += data[i][j];
+                }
+            }
+            t[t.length - 2] = "" + data[i][0];
+            total += data[i][0];
+            t[t.length -1] = "" + total;
             sheet.rows.add(t);
     	}
     	retVal.add(sheet);
+    	
+    	// Calculate average, min, max
+    	double sum = 0;
+    	double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
+        int minDay = 0;
+        int maxDay = 0;
+    	for (int i = 0; i < sheet.rows.size(); i++) {
+    	    String[] row = sheet.rows.get(i);
+    	    double current = Double.parseDouble(row[row.length -1]);
+    	    sum += current;
+    	    if (current < min) {
+    	        min = current;
+    	        minDay = i + 1;
+    	    }
+    	    if (current > max) {
+                max = current;
+                maxDay = i + 1;
+            }
+    	}
+    	sheet.average = "" + (int)(sum / sheet.rows.size());
+    	sheet.high = (int)min + " on day " + minDay;
+    	sheet.low = (int)max + " on day " + maxDay;
+    	
     	
     	// Create summary
     	sheet = new TSheet();
@@ -55,7 +90,7 @@ public class TSheet {
         }
 
         // Add formulas for each resident type
-        String[] t = new String[sheet.columns.length + 2];
+        String[] t = new String[sheet.columns.length + 1];
         t[0] = "1";
         for(int j = 1; j < t.length - 1; j++) {
             t[j] = generateSumFormula(month, j, 2, 32);
