@@ -60,22 +60,26 @@ public class TSheet {
         double max = Double.MIN_VALUE;
         int minDay = 0;
         int maxDay = 0;
+        int count = 0;
     	for (int i = 0; i < sheet.rows.size(); i++) {
     	    String[] row = sheet.rows.get(i);
     	    double current = Double.parseDouble(row[row.length -1]);
-    	    sum += current;
-    	    if (current < min) {
-    	        min = current;
-    	        minDay = i + 1;
+    	    if (current != 0) {
+    	        count++;
+    	        sum += current;
+                if (current < min) {
+                    min = current;
+                    minDay = i + 1;
+                }
+                if (current > max) {
+                    max = current;
+                    maxDay = i + 1;
+                }
     	    }
-    	    if (current > max) {
-                max = current;
-                maxDay = i + 1;
-            }
     	}
-    	sheet.average = "" + (int)(sum / sheet.rows.size());
-    	sheet.high = (int)min + " on day " + minDay;
-    	sheet.low = (int)max + " on day " + maxDay;
+    	sheet.average = "" + (int)(sum / count);
+    	sheet.low = (int)min + " on day " + minDay;
+    	sheet.high = (int)max + " on day " + maxDay;
     	
     	
     	// Create summary
