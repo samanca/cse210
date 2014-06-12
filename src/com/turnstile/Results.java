@@ -89,7 +89,7 @@ public class Results {
 		// HVRP increment hvrp  when last value of lineArray == 1
 		// 'boxes' is defined above as length of the lineArray (all boxes on line)
 		if (lineArray[boxes]==1) {
-			tallies[date][boxes] += 1;
+			tallies[date][boxes+1] += 1;
 		}
 		
 	} // end analyze
